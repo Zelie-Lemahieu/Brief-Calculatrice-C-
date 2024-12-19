@@ -19,7 +19,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 "\n * --- multiplication" +
                 "\n / --- division" +
                 "\n ^ --- puissance" +
-                "\n v --- racine" +
+                "\n v --- racine carrée" +
+                "\n ! --- factorielle" +
                 "\n 0 --- QUITTER" +
                 "\n\n Choix : ");
             choixMenu = char.Parse(Console.ReadLine());
@@ -46,6 +47,15 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 case '^':
                     Puissance();
                     Console.WriteLine($"La puissance de {premierNombre} par {deuxiemeNombre} vaut {resultat}");
+                    break;
+                case 'v':
+                    RacineCarree();
+                    Console.WriteLine($"La racine carrée de {premierNombre} vaut {resultat}");
+                    break;
+                case '!':
+                    Factorielle();
+                    Console.WriteLine($"La factorielle de {premierNombre} vaut {resultat}");
+                    ////NE MARCHE PAS ENCORE!!!!
                     break;
                 case '0':
                     Environment.Exit(0);
@@ -117,6 +127,29 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 deuxiemeNombre = double.Parse(Console.ReadLine());
                 //Calcul du produit:
                 resultat = Math.Pow(premierNombre, deuxiemeNombre);
+            };
+
+            //RACINE:
+            void RacineCarree()
+            {
+                //Attributions des valeurs:
+                Console.Write("Entrer un nombre : ");
+                premierNombre = double.Parse(Console.ReadLine());
+                //Calcul de la racine:
+                resultat = Math.Sqrt(premierNombre);
+            };
+
+            //FACTORIELLE:
+            void Factorielle()
+            {
+                //Attributions des valeurs:
+                Console.Write("Entrer un nombre : ");
+                premierNombre = double.Parse(Console.ReadLine());
+                //Calcul de la factorielle:
+                for(double i = premierNombre; i > 1; i--)
+                {
+                    resultat *= i;
+                };
             };
         }
     }
