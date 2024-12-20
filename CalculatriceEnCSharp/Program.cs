@@ -7,62 +7,180 @@ namespace MyApp // Note: actual namespace depends on the project name.
         static void Main(string[] args)
         {
             //Initialisation des variables:
+            char choixMenu = ' ';
             double premierNombre = 0;
             double deuxiemeNombre = 0;
             double resultat = 0;
-            char choixMenu = ' ';
+            int nombreEntier = 0;
+            List<int> listeDesDiviseurs = new List<int>();
+            int deuxiemeNombreEntier = 0;
+            Random aleatoire = new Random();
 
-            //Choix de l'opération par l'utilisateur:
-            Console.Write("--- Choisir une opération ---" +
-                "\n + --- multiplication" +
-                "\n - --- soustraction" +
-                "\n * --- multiplication" +
-                "\n / --- division" +
-                "\n ^ --- puissance" +
-                "\n v --- racine carrée" +
-                "\n ! --- factorielle" +
-                "\n 0 --- QUITTER" +
-                "\n\n Choix : ");
-            choixMenu = char.Parse(Console.ReadLine());
-
-            //REDIRECTION DANS LES DIFFÉRENTS CALCULS
-            switch (choixMenu)
+            do
             {
-                case '+':
-                    Addition();
-                    Console.WriteLine($"La somme de {premierNombre} et {deuxiemeNombre} vaut {resultat}");
-                    break;
-                case '-':
-                    Soustraction();
-                    Console.WriteLine($"La différence de {premierNombre} et {deuxiemeNombre} vaut {resultat}");
-                    break;
-                case '*':
-                    Multiplication();
-                    Console.WriteLine($"Le produit de {premierNombre} et {deuxiemeNombre} vaut {resultat}");
-                    break;
-                case '/':
-                    Division();
-                    Console.WriteLine($"Le quotient de {premierNombre} par {deuxiemeNombre} vaut {resultat}");
-                    break;
-                case '^':
-                    Puissance();
-                    Console.WriteLine($"La puissance de {premierNombre} par {deuxiemeNombre} vaut {resultat}");
-                    break;
-                case 'v':
-                    RacineCarree();
-                    Console.WriteLine($"La racine carrée de {premierNombre} vaut {resultat}");
-                    break;
-                case '!':
-                    Factorielle();
-                    Console.WriteLine($"La factorielle de {premierNombre} vaut {resultat}");
-                    ////NE MARCHE PAS ENCORE!!!!
-                    break;
-                case '0':
-                    Environment.Exit(0);
-                    break;
+                //Choix de l'opération par l'utilisateur:
+                TitrageMenu("CALCULATRICE");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("--- Choisir une opération ---");
+                Console.ResetColor();
+                Console.Write("\n + --- addition\t\t\t^ --- puissance\t\t\t? --- nombre aléatoire" +
+                    "\n - --- soustraction\t\tv --- racine carrée" +
+                    "\n * --- multiplication\t\t! --- factorielle" +
+                    "\n / --- division\t\t\t# --- liste des diviseurs\t0 --- QUITTER" +
+                    "\n\n Choix : ");
+                choixMenu = char.Parse(Console.ReadLine());
+
+                //REDIRECTION DANS LES DIFFÉRENTS CALCULS
+                switch (choixMenu)
+                {
+                    case '+':
+                        Titrage("ADDITION");
+                        Addition();
+                        Console.Write($"La somme de {premierNombre} et {deuxiemeNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n"); //<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '-':
+                        Titrage("SOUSTRACTION");
+                        Soustraction();
+                        Console.Write($"La différence de {premierNombre} et {deuxiemeNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '*':
+                        Titrage("MULTIPLICATION");
+                        Multiplication();
+                        Console.Write($"Le produit de {premierNombre} et {deuxiemeNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '/':
+                        Titrage("DIVISION");
+                        Division();
+                        Console.Write($"Le quotient de {premierNombre} par {deuxiemeNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '^':
+                        Titrage("PUISSANCE");
+                        Puissance();
+                        Console.Write($"La puissance de {premierNombre} par {deuxiemeNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case 'v':
+                        Titrage("RACINE CARRÉE");
+                        RacineCarree();
+                        Console.Write($"La racine carrée de {premierNombre} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '!':
+                        Titrage("FACTORIELLE");
+                        Factorielle();
+                        Console.Write($"La factorielle de {nombreEntier} vaut ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '#':
+                        Titrage("LISTE DES DIVISEURS");
+                        ChercheDiviseurs();
+                        Console.Write($"{nombreEntier} a {listeDesDiviseurs.Count} diviseurs qui sont :");
+                        Console.ForegroundColor = ConsoleColor.Cyan;//<-- résultat mis en valeur en couleur.
+                        for (int i = 0; i < listeDesDiviseurs.Count; i++)
+                        {
+                            if (i < listeDesDiviseurs.Count - 2)
+                            {
+                                Console.Write($" {listeDesDiviseurs[i]},");//<--diviseurs listés entre virgules.
+                            }
+                            else if (i == listeDesDiviseurs.Count - 2)
+                            {
+                                Console.Write($" {listeDesDiviseurs[i]} et");//<--avant-dernier diviseur séparé par le derier par "et".
+                            }
+                            else//<-- if (i == listeDesDiviseurs.Count - 1)
+                            {
+                                Console.WriteLine($" {listeDesDiviseurs[i]}");//<--dernier diviseur affiché seul
+                            };
+                        };
+                        Console.ResetColor();
+                        if (listeDesDiviseurs.Count == 2) //<-- S'il n'a que deux diviseurs, le nombre est premier.
+                        {
+                            Console.WriteLine($"{nombreEntier} est donc un nombre premier.\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n");
+                        };
+                        break;
+                    case '?':
+                        Titrage("NOMBRE ALÉATOIRE");
+                        NombreAleatoire();
+                        Console.Write($"Voici un nombre aléatoirement tiré entre {nombreEntier} et {deuxiemeNombreEntier - 1} : ");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{resultat}\n");//<-- résultat mis en valeur en couleur.
+                        Console.ResetColor();
+                        break;
+                    case '0':
+                        Environment.Exit(0); //<--Sortie du programme
+                        break;
+                };
+            } while (true);
+
+            //Fonction TITRAGE:
+            //Affichage d'un titre encadré en jaune
+            void Titrage(string titre)
+            {
+                Console.Clear();
+
+                titre = $"║ {titre} ║";
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("╔");
+                for (int i = 0; i < titre.Length - 2; i++)
+                {
+                    Console.Write("═");
+                };
+                Console.WriteLine("╗");
+                Console.WriteLine(titre);
+                Console.Write("╚");
+                for (int i = 0; i < titre.Length - 2; i++)
+                {
+                    Console.Write("═");
+                };
+                Console.WriteLine("╝");
+                Console.ResetColor();
             };
 
-            //ADDITION
+            //Fonction TITRAGE MENU:
+            //Affichage d'un titre rouge (sans Console.Clear)
+            void TitrageMenu(string titre)
+            {
+                titre = $"║ {titre} ║";
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("╔");
+                for (int i = 0; i < titre.Length - 2; i++)
+                {
+                    Console.Write("═");
+                };
+                Console.WriteLine("╗");
+                Console.WriteLine(titre);
+                Console.Write("╚");
+                for (int i = 0; i < titre.Length - 2; i++)
+                {
+                    Console.Write("═");
+                };
+                Console.WriteLine("╝");
+                Console.ResetColor();
+            };
+
+
+            //Fonction ADDITION:
             void Addition()
             {
                 //Attributions des valeurs:
@@ -74,7 +192,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 resultat = premierNombre + deuxiemeNombre;
             };
 
-            //SOUSTRACTION:
+            //Fonction SOUSTRACTION:
             void Soustraction()
             {
                 //Attributions des valeurs:
@@ -86,7 +204,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 resultat = premierNombre - deuxiemeNombre;
             };
 
-            //MULTIPLICATION:
+            //Fonction MULTIPLICATION:
             void Multiplication()
             {
                 //Attributions des valeurs:
@@ -98,7 +216,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 resultat = premierNombre * deuxiemeNombre;
             };
 
-            //DIVISION:
+            //Fonction DIVISION:
             void Division()
             {
                 //Attributions des valeurs:
@@ -108,16 +226,18 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 {
                     Console.Write("Entrer un diviseur : ");
                     deuxiemeNombre = double.Parse(Console.ReadLine());
-                    if (deuxiemeNombre == 0)
+                    if (deuxiemeNombre == 0) //<--Vérification que le diviseur != 0.
                     {
-                        Console.WriteLine("Le diviseur ne peut pas valoir 0.");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\tLe diviseur ne peut pas valoir 0 !");
+                        Console.ResetColor();
                     };
                 } while (deuxiemeNombre == 0);
                 //Calcul du quotient:
                 resultat = premierNombre / deuxiemeNombre;
             };
 
-            //PUISSANCE:
+            //Fonction PUISSANCE:
             void Puissance()
             {
                 //Attributions des valeurs:
@@ -129,27 +249,95 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 resultat = Math.Pow(premierNombre, deuxiemeNombre);
             };
 
-            //RACINE:
+            //Fonction RACINE Carrée:
             void RacineCarree()
             {
                 //Attributions des valeurs:
-                Console.Write("Entrer un nombre : ");
-                premierNombre = double.Parse(Console.ReadLine());
+                do
+                {
+                    Console.Write("Entrer un nombre positif : ");
+                    premierNombre = double.Parse(Console.ReadLine());
+                    if (premierNombre < 0)//<--Vérification que le nombre est positif.
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\t Le nombre doit être supérieur à 0 !");
+                        Console.ResetColor();
+                        Console.Write("Entrer un nombre positif: ");
+                        premierNombre = double.Parse(Console.ReadLine());
+                    };
+                } while (premierNombre < 0);
                 //Calcul de la racine:
                 resultat = Math.Sqrt(premierNombre);
             };
 
-            //FACTORIELLE:
+            //Fonction FACTORIELLE:
             void Factorielle()
             {
                 //Attributions des valeurs:
-                Console.Write("Entrer un nombre : ");
-                premierNombre = double.Parse(Console.ReadLine());
+                do
+                {
+                    Console.Write("Entrer un nombre entier positif: ");
+                    nombreEntier = int.Parse(Console.ReadLine());
+                    if (nombreEntier <= 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\t Le nombre doit être supérieur à 0 !");
+                        Console.ResetColor();
+                    };
+                } while (nombreEntier <= 0);
                 //Calcul de la factorielle:
-                for(double i = premierNombre; i > 1; i--)
+                resultat = nombreEntier;
+                for(double i = nombreEntier - 1; i > 1; i--)
                 {
                     resultat *= i;
                 };
+            };
+
+            //Fonction LISTE DES DIVISEURS:
+            void ChercheDiviseurs()
+            {
+                //Attributions des valeurs:
+                do
+                {
+                    Console.Write("Entrer un nombre entier positif: ");
+                    nombreEntier = int.Parse(Console.ReadLine());
+                    if (nombreEntier <= 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\t Le nombre doit être supérieur à 1 !");
+                        Console.ResetColor();
+                    };
+                } while (nombreEntier <= 1);
+                //Calcul des diviseurs:
+                listeDesDiviseurs.Clear();
+                for(int i = 1; i <= nombreEntier; i++)
+                {
+                    if (nombreEntier % i == 0)
+                    {
+                        listeDesDiviseurs.Add(i);
+                    };
+                };
+            };
+
+            void NombreAleatoire()
+            {
+                //Attributions des valeurs (bornes):
+                Console.Write("Entrer une borne inférieure (incluse) : ");
+                nombreEntier = int.Parse(Console.ReadLine());
+                do
+                {
+                    Console.Write("Entrer une borne supérieure (incluse) : ");
+                    deuxiemeNombreEntier = int.Parse(Console.ReadLine()) + 1;//<-- +1 pour que la borne soit incluse.
+                    if (deuxiemeNombreEntier < nombreEntier)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\t La borne supérieure doit être supérieur à la borne inférieure !");
+                        Console.ResetColor();
+                    };
+                } while (deuxiemeNombreEntier < nombreEntier);
+                
+                //Tirage du résultat aléatoire:
+                resultat = aleatoire.Next(nombreEntier, deuxiemeNombreEntier);
             };
         }
     }
